@@ -19,6 +19,7 @@ void igvInterfaz::configurarEntorno(int argc, char** argv, int _ancho_ventana, i
 	glutInitWindowSize(ancho_ventana, alto_ventana);
 	glutInitWindowPosition(_pos_X, _pos_Y);
 	glutCreateWindow(_titulo.c_str());
+	crearMenu();
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 0.0); // establece el color de fondo de la ventana
 	glEnable(GL_LIGHTING); // activa la iluminacion de la escena
@@ -34,6 +35,14 @@ void igvInterfaz::iniciarBucle()
 	glutMainLoop();
 }
 
+void igvInterfaz::crearMenu()
+{
+	int menu_id = glutCreateMenu(menuHandle);
+	glutAddMenuEntry("Test", 0);
+	glutAddMenuEntry("Test2", 1);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
 void igvInterfaz::set_glutReshapeFunc(int w, int h)
 {
 	// dimensiona el viewport al nuevo ancho y alto de la ventana
@@ -43,6 +52,29 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h)
 
 	// establece los parámetros de la cámara y de la proyección
 	interfaz.camara.aplicar();
+}
+void igvInterfaz::menuHandle(int value)
+{
+	interfaz.seleccionMenu = value;
+	glutPostRedisplay();
+}
+void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+	case 'e': // activa/desactiva la visualizacion de los ejes
+		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
+		break;
+	case 'E': // activa/desactiva la visualizacion de los ejes
+		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
+		break;
+	case 27: // tecla de escape para SALIR
+		exit(1);
+		break;
+	default:
+		break;
+	}
+	glutPostRedisplay();
 }
 void igvInterfaz::set_glutDisplayFunc() 
 {
@@ -64,4 +96,5 @@ void igvInterfaz::inicializarEventos()
 {
 	glutReshapeFunc(set_glutReshapeFunc);
 	glutDisplayFunc(set_glutDisplayFunc);
+	glutKeyboardFunc(set_glutKeyboardFunc);
 }

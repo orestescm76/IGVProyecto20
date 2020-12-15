@@ -10,6 +10,7 @@ class igvInterfaz
 	int alto_ventana;
 	igvCamara camara;
 	igvEscena3D escena;
+	int seleccionMenu;
 
 public:
 	igvInterfaz();
@@ -21,8 +22,11 @@ public:
 	void crearMundo();
 	void configurarEntorno(int argc, char** argv, int _ancho_ventana, int _alto_ventana, int _pos_X, int _pos_Y, std::string _titulo);
 	void iniciarBucle();
+	void crearMenu();
 	static void set_glutReshapeFunc(int w, int h);
 	static void set_glutDisplayFunc();
+	static void set_glutKeyboardFunc(unsigned char key, int x, int y);
+	static void menuHandle(int value); //Función para manejar menús
 	void inicializarEventos();
 };
 

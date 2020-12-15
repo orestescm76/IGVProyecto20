@@ -17,7 +17,9 @@ void igvEscena3D::visualizar()
 {
 	if (ejes)
 		visualizarEjes();
+
 	glPushMatrix();
+
 	luzFija->aplicar();
 	cilindro->visualizar();
 	glPopMatrix();
@@ -46,5 +48,5 @@ void igvEscena3D::visualizarEjes()
 		glVertex3f(0, 0, 1000);
 		glVertex3f(0, 0, -1000);
 		glEnd();
-	glPushMatrix();
+	glPopMatrix();
 }
