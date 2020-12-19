@@ -8,16 +8,18 @@
 #else
 #include <GL/glut.h>
 #endif
-
+#include <cmath>
 #include "igvPunto3D.h"
 
-typedef enum {
+typedef enum 
+{
 	IGV_PARALELA,
 	IGV_FRUSTUM,
 	IGV_PERSPECTIVA
 } tipoCamara;
 
-class igvCamara {
+class igvCamara 
+{
 
 	public:
 		// atributos
@@ -42,7 +44,8 @@ class igvCamara {
 		// vector arriba
 		igvPunto3D V;
 
-		// Metodos
+		// ángulo de rotación de la cámara
+		float ang = 0.0;
 
 	public:
 		// Constructores por defecto y destructor
@@ -67,6 +70,12 @@ class igvCamara {
 		void aplicar(void); // aplica a los objetos de la escena la transformación de visión y la transformación de proyección
 		                    // asociadas a los parámetros de la cámara
 		void zoom(double factor); // realiza un zoom sobre la cámara
+
+		igvPunto3D getPuntoReferencia() { return r; }
+		void setPuntoReferencia(igvPunto3D _r) { r = _r; }
+		float getAngulo() { return ang; }
+		void setAnguloyRotar(float a);
+		void setRAspecto(double r) { raspecto = r; }
 };
 
 #endif

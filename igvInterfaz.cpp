@@ -1,14 +1,18 @@
 #include "igvInterfaz.h"
+#include <iostream>
 extern igvInterfaz interfaz;
 
-igvInterfaz::igvInterfaz() {}
+igvInterfaz::igvInterfaz() 
+{
+	boton_retenido = false;
+}
 igvInterfaz::~igvInterfaz() {}
 
 void igvInterfaz::crearMundo()
 {
-	interfaz.camara.set(IGV_PARALELA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),
-		-1 * 4.5, 1 * 4.5, -1 * 4.5, 1 * 4.5, -1 * 3, 200);
-	//interfaz.camara.set(IGV_PERSPECTIVA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0), 60, 16.0 / 9.0, 1,6);
+	/*interfaz.camara.set(IGV_PARALELA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),
+		-1 * 4.5, 1 * 4.5, -1 * 4.5, 1 * 4.5, -1 * 3, 200);*/
+	interfaz.camara.set(IGV_PERSPECTIVA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(3,2,4), igvPunto3D(0, 1.0, 0), 60, (double)interfaz.ancho_ventana/(double)interfaz.alto_ventana, 1,6);
 }
 
 void igvInterfaz::configurarEntorno(int argc, char** argv, int _ancho_ventana, int _alto_ventana, int _pos_X, int _pos_Y, std::string _titulo)
@@ -47,12 +51,39 @@ void igvInterfaz::crearMenu()
 void igvInterfaz::set_glutReshapeFunc(int w, int h)
 {
 	// dimensiona el viewport al nuevo ancho y alto de la ventana
-// guardamos valores nuevos de la ventana de visualizacion
+	//guardamos valores nuevos de la ventana de visualizacion
 	interfaz.set_ancho_ventana(w);
 	interfaz.set_alto_ventana(h);
-
-	// establece los parámetros de la cámara y de la proyección
+	interfaz.camara.setRAspecto((double)w / (double)h);
+	//establece los parámetros de la cámara y de la proyección
 	interfaz.camara.aplicar();
+}
+void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
+{
+	if (interfaz.boton_retenido)
+	{
+		//mover el punto de referencia.
+		igvPunto3D punto = interfaz.camara.getPuntoReferencia();
+		float a = interfaz.camara.getAngulo();
+		int dx = interfaz.cursorX - x;
+		int dy = interfaz.cursorY - y;
+		//se mueve un poco janky pero funciona...
+		if (dx < 0 && abs(dy) < 5)
+			a -= .006;
+		else if (dx > 0 && abs(dy) < 5)
+			a += .006;
+		if (dy < 0 && abs(dx) < 5)
+			punto[1] += .005;
+		else if (dy > 0 && abs(dx) < 5)
+			punto[1] -= .005;
+		//guardar la nueva posición del ratón 
+		interfaz.cursorX = x;
+		interfaz.cursorY = y;
+		interfaz.camara.setAnguloyRotar(a);
+		interfaz.camara.setPuntoReferencia(punto);
+	}
+	interfaz.camara.aplicar();
+	glutPostRedisplay();
 }
 void igvInterfaz::menuHandle(int value)
 {
@@ -61,8 +92,22 @@ void igvInterfaz::menuHandle(int value)
 }
 void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 {
+	igvPunto3D punto(interfaz.camara.getPuntoReferencia());
+	float a = interfaz.camara.getAngulo();
 	switch (key)
 	{
+	case 'w': //arriba
+		punto.c[1] += .5;
+		break;
+	case 's': //abajo
+		punto.c[1] -= .5;
+		break;
+	case 'a': //mira a la izquierda
+		a -= 0.05;
+		break;
+	case 'd': //mira a la derecha
+		a += 0.05;
+		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
 		break;
@@ -75,7 +120,46 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	default:
 		break;
 	}
+	interfaz.camara.setPuntoReferencia(punto);
+	interfaz.camara.setAnguloyRotar(a);
+	interfaz.camara.aplicar();
 	glutPostRedisplay();
+}
+void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
+{
+	interfaz.cursorX = x;
+	interfaz.cursorY = y;
+	switch (boton)
+	{
+	case GLUT_MIDDLE_BUTTON:
+		if (estado == GLUT_DOWN)
+		{
+			interfaz.boton_retenido = true;
+			interfaz.cursorX = x;
+			interfaz.cursorY = y;
+		}
+		break;
+	default:
+		break;
+	}
+	//if (boton == GLUT_LEFT_BUTTON)
+	//{
+	//	// Apartado A: guardar que el boton se ha presionado o se ha soltado, si se ha pulsado hay que
+	//	// pasar a modo IGV_SELECCIONAR
+	//	if (estado == GLUT_DOWN)
+	//	{
+	//		interfaz.modo = IGV_SELECCIONAR;
+	//		// Apartado A: guardar el pixel pulsado
+	//		interfaz.cursorX = x;
+	//		interfaz.cursorY = interfaz.alto_ventana - y;
+	//		interfaz.boton_retenido = true;
+	//	}
+	//	if (estado == GLUT_UP)
+	//		interfaz.boton_retenido = false;
+	//	// Apartado A: renovar el contenido de la ventana de vision 
+	//}
+	glutPostRedisplay();
+
 }
 void igvInterfaz::set_glutDisplayFunc() 
 {
@@ -98,4 +182,6 @@ void igvInterfaz::inicializarEventos()
 	glutReshapeFunc(set_glutReshapeFunc);
 	glutDisplayFunc(set_glutDisplayFunc);
 	glutKeyboardFunc(set_glutKeyboardFunc);
+	glutMouseFunc(set_glutMouseFunc);
+	glutMotionFunc(set_glutMotionFunc);
 }
