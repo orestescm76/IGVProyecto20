@@ -27,6 +27,7 @@ class igvMallaTriangulos
 		long int num_triangulos; // número de triángulos de la malla de triángulos
 		unsigned int *triangulos; // array con los (num_triangulos * 3) índices a los vértices de cada triángulo
 
+		float* coordTex;
 
 	public:
 		// Constructor y destructor

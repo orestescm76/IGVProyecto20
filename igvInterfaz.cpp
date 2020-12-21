@@ -69,18 +69,19 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 		int dy = interfaz.cursorY - y;
 		//se mueve un poco janky pero funciona...
 		if (dx < 0 && abs(dy) < 5)
-			a -= .006;
+			a -= .01;
 		else if (dx > 0 && abs(dy) < 5)
-			a += .006;
+			a += .01;
 		if (dy < 0 && abs(dx) < 5)
 			punto[1] += .005;
 		else if (dy > 0 && abs(dx) < 5)
 			punto[1] -= .005;
+
 		//guardar la nueva posición del ratón 
 		interfaz.cursorX = x;
 		interfaz.cursorY = y;
-		interfaz.camara.setAnguloyRotar(a);
 		interfaz.camara.setPuntoReferencia(punto);
+		interfaz.camara.setAnguloyRotar(a);
 	}
 	interfaz.camara.aplicar();
 	glutPostRedisplay();
@@ -96,10 +97,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	float a = interfaz.camara.getAngulo();
 	switch (key)
 	{
-	case 'w': //arriba
+	case 'w': //delante
 		punto.c[1] += .5;
 		break;
-	case 's': //abajo
+	case 's': //detrás
 		punto.c[1] -= .5;
 		break;
 	case 'a': //mira a la izquierda

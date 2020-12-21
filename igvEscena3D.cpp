@@ -1,7 +1,7 @@
 #include "igvEscena3D.h"
 /*
 * POR HACER:
-* implementar la rotacion de la camara con el boton central
+* implementar la rotacion de la camara con el boton central - done?
 * funciones sencillas con el teclado para moverla y ampliar (será perspectiva)
 * cargar texturas
 * crear varios materiales, investigando - configurar parametros material con teclas ya implementadas, fácil porque sé cual es el activo para cada uno.
@@ -12,12 +12,12 @@
 * meter mas luces si eso
 * EXTRA: meter modelos
 */
-igvEscena3D::igvEscena3D()
+igvEscena3D::igvEscena3D(): paracleto("budgie.jpg")
 {
 	ejes = true;
-	cilindro = new igvCilindro(1, 1, 50, 50);
+	cilindro = new igvCilindro(1,2,10,3);
 	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 4.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
-	quad = new igvQuad(50, 50, 6, 6);
+	quad = new igvQuad(200,200,5,5);
 }
 
 igvEscena3D::~igvEscena3D()
@@ -34,7 +34,8 @@ void igvEscena3D::visualizar()
 	glPushMatrix();
 
 	luzFija->aplicar();
-	cilindro->visualizar();
+	paracleto.aplicar();
+	cilindro->visualizar(false, true);
 	quad->visualizar();
 	glPopMatrix();
 }

@@ -4,6 +4,7 @@
 #include "igvFuenteLuz.h"
 #include "igvQuad.h"
 #include "igvMaterial.h"
+#include "igvTextura.h"
 
 class igvEscena3D
 {
@@ -11,6 +12,7 @@ class igvEscena3D
 	igvCilindro* cilindro;
 	igvFuenteLuz* luzFija;
 	igvQuad* quad;
+	igvTextura paracleto;
 public:
 	igvEscena3D();
 	~igvEscena3D();

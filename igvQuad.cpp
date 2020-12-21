@@ -12,10 +12,6 @@ igvQuad::~igvQuad()
 
 void igvQuad::visualizar()
 {
-	float ini_x = 0.0;
-	float ini_z = 0.0;
-	float tam_x = 5.0;
-	float tam_z = 5.0;
 	float divisionX = tam_x / div_x;
 	float divisionZ = tam_z / div_z;
 	float x, z, s, t, ss, tt;

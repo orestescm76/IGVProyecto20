@@ -5,7 +5,7 @@
 //Resolución mía de la práctica 3A
 class igvCilindro : public igvMallaTriangulos 
 {
-
+	int divU, divV;
 public:
 
 	//// Constructores por y destructor
