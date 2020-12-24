@@ -98,16 +98,16 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case 'w': //delante
-		punto.c[1] += .5;
+		punto.c[1] += .25;
 		break;
 	case 's': //detrás
-		punto.c[1] -= .5;
+		punto.c[1] -= .25;
 		break;
 	case 'a': //mira a la izquierda
-		a -= 0.05;
+		a -= 0.1;
 		break;
 	case 'd': //mira a la derecha
-		a += 0.05;
+		a += 0.1;
 		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
@@ -140,25 +140,30 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 			interfaz.cursorY = y;
 		}
 		break;
+	case GLUT_LEFT_BUTTON:
+		if (estado == GLUT_DOWN)
+		{
+			interfaz.boton_retenido = false;
+			interfaz.modo = IGV_SELECCIONAR;
+			// Apartado A: guardar el pixel pulsado
+			interfaz.cursorX = x;
+			interfaz.cursorY = interfaz.alto_ventana - y;
+		}
+
+		break;
+	case GLUT_RIGHT_BUTTON:
+		if (estado == GLUT_DOWN)
+		{
+			interfaz.boton_retenido = false;
+			interfaz.modo = IGV_SELECCIONAR;
+			// Apartado A: guardar el pixel pulsado
+			interfaz.cursorX = x;
+			interfaz.cursorY = interfaz.alto_ventana - y;
+		}
+		break;
 	default:
 		break;
 	}
-	//if (boton == GLUT_LEFT_BUTTON)
-	//{
-	//	// Apartado A: guardar que el boton se ha presionado o se ha soltado, si se ha pulsado hay que
-	//	// pasar a modo IGV_SELECCIONAR
-	//	if (estado == GLUT_DOWN)
-	//	{
-	//		interfaz.modo = IGV_SELECCIONAR;
-	//		// Apartado A: guardar el pixel pulsado
-	//		interfaz.cursorX = x;
-	//		interfaz.cursorY = interfaz.alto_ventana - y;
-	//		interfaz.boton_retenido = true;
-	//	}
-	//	if (estado == GLUT_UP)
-	//		interfaz.boton_retenido = false;
-	//	// Apartado A: renovar el contenido de la ventana de vision 
-	//}
 	glutPostRedisplay();
 
 }
@@ -168,15 +173,44 @@ void igvInterfaz::set_glutDisplayFunc()
 
 	// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
+	if (interfaz.modo == IGV_SELECCIONAR)
+	{
+		//Si estamos en modo selección...
+		glDisable(GL_LIGHTING);
+		glDisable(GL_DITHER);
 
-	// establece los parámetros de la cámara y de la proyección
-	interfaz.camara.aplicar();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_CULL_FACE);
+		if (interfaz.objeto_seleccionado != -1)
+		{
+			float cS[3] = { 0.0, (interfaz.objeto_seleccionado*2) / 255.0f, 0.0 };
+			interfaz.escena.activarSeleccion(interfaz.objeto_seleccionado);
+		}
+		interfaz.objeto_seleccionado = -1;
+		interfaz.camara.aplicar();
+		interfaz.escena.visualizarSeleccion();
+		GLubyte colorSeleccionado[3];
+		glReadPixels(interfaz.cursorX, interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, colorSeleccionado);
+		interfaz.objeto_seleccionado = colorSeleccionado[1];
+		if (interfaz.objeto_seleccionado >= 255)
+			interfaz.objeto_seleccionado = -1;
+		interfaz.escena.activarSeleccion(interfaz.objeto_seleccionado);
+		interfaz.modo = IGV_VISUALIZAR;
+		glEnable(GL_LIGHTING);
+		glEnable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		// establece los parámetros de la cámara y de la proyección
+		interfaz.camara.aplicar();
 
-	//visualiza la escena
-	interfaz.escena.visualizar();
+		//visualiza la escena
+		interfaz.escena.visualizar();
+		// refresca la ventana
+		glutSwapBuffers(); // se utiliza, en vez de glFlush(), para evitar el parpadeo
+	}
 
-	// refresca la ventana
-	glutSwapBuffers(); // se utiliza, en vez de glFlush(), para evitar el parpadeo
 }
 void igvInterfaz::inicializarEventos()
 {

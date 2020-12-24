@@ -17,8 +17,11 @@ public:
 	igvEscena3D();
 	~igvEscena3D();
 	void visualizar();
+	void visualizarSeleccion();
 	void visualizarEjes();
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
+	void activarSeleccion(int obj);
+	void restablecerColores();
 };
 

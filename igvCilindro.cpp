@@ -7,6 +7,7 @@ igvCilindro::igvCilindro() :igvMallaTriangulos()
 
 igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV(divV)
 {
+	this->color = igvColor(.5, .5, 0);
 	//0 divsiones seria num divisiones *2 
 	//1 divisiones seria *3 
 	//2 divisiones seria *4
@@ -18,7 +19,7 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 	normales = new float[num_vertices * 3];
 	triangulos = new unsigned int[num_triangulos * 3];
 
-	coordTex = new float[num_vertices*2];
+	texCoords = new float[num_vertices*2];
 	//Rellenado de vértices, caso de abajo.
 	float div = (2 * 3.141592) / divU;
 
@@ -49,7 +50,7 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 	int esqInf = 0;
 	for (int h = 0; h <= divV; h++) //por cada altura...
 	{
-		for (int i = esqInf*3; i < (esqInf+divU)*3; i+=3)
+		for (int i = esqInf*3,vert = 0, tc = 0; i < (esqInf+divU)*3; i+=3, vert++, tc+=2)
 		{
 			if (triangulo == divU - 1+(h*divU))
 			{
@@ -63,6 +64,8 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 				triangulos[i + 1] = triangulo+1;
 				triangulos[i + 2] = triangulo;
 			}
+			texCoords[tc] = (float)vert / divU;
+			texCoords[tc+1] = (float)h / divV;
 			triangulo++;
 		}
 		esqInf+=divU;
@@ -123,87 +126,22 @@ igvCilindro::~igvCilindro()
 
 void igvCilindro::visualizar()
 {
-	//Generar texcoords:
-	int triangulo = 0;
-	for (int h = 0; h <= divV; h++) //por cada altura...
-	{
-		for (int triangulo = 0; triangulo < divU; triangulo++)
-		{
-			float t = (float)h / (float)divV;
-			if (triangulo == divU - 1 + (h * divU))
-				glTexCoord2d(1.0, t);
-			else
-			{
-				float s = (float)triangulo / (float)divU;
-				glTexCoord2d((triangulo) / divU, (h) / divV);
-			}
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color.cloneToFloatArray());
+	glColor3fv(colorSeleccion.cloneToFloatArray());
 
-		}
-	}
-	glShadeModel(GL_FLAT);
+	glShadeModel(GL_SMOOTH);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glNormalPointer(GL_FLOAT, 0, normales);
 
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
 	glDrawElements(GL_TRIANGLES, num_triangulos * 3, GL_UNSIGNED_INT, triangulos);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
-}
-
-void igvCilindro::visualizar(bool n, bool g)
-{
-	//Generar texcoords:
-	int k = 0;
-	for (int h = 0; h < divV; h++) //por cada altura...
-	{
-		for (int triangulo = 0; triangulo < divU; triangulo++)
-		{
-			if (triangulo == divU - 1 + (h * divU))
-			{
-				float s = (float)h / divV;
-				coordTex[k] = 1;
-				coordTex[k+1] = s;
-				//glTexCoord2d(1, s);
-			}
-
-			else
-			{
-				float s = (float)triangulo / (float)divU;
-				float t = (float)h / (float)divV;
-				coordTex[k] = s;
-				coordTex[k + 1] = t;
-			}
-		}
-		k += 2;
-	}
-	glShadeModel(GL_FLAT);
-	if (g)
-		glShadeModel(GL_SMOOTH);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	if (n)
-	{
-
-
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glNormalPointer(GL_FLOAT, 0, normales);
-
-		glDrawElements(GL_TRIANGLES, num_triangulos * 3, GL_UNSIGNED_INT, triangulos);
-
-
-		glDisableClientState(GL_NORMAL_ARRAY);
-	}
-	else
-	{
-		
-		glDrawElements(GL_TRIANGLES, num_triangulos * 3, GL_UNSIGNED_INT, triangulos);	
-		glTexCoordPointer(2, GL_FLOAT, 0, coordTex);
-	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
 }
-

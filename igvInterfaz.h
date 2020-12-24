@@ -22,7 +22,7 @@ class igvInterfaz
 	modoInterfaz modo;
 	int cursorX = 0, cursorY = 0;
 	bool boton_retenido;
-	int objeto_seleccionado = -1;
+	int objeto_seleccionado = -1; //cada objeto tendrá su código
 	float colorSeleccion[3] = { 0.992, 0.961, 0.427 };
 
 public:

@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <string>
 
-
 class igvTextura {
 
 	protected:

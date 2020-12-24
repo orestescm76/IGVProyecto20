@@ -8,11 +8,12 @@
 #else
 #include <GL/glut.h>
 #endif
-
+#include "igvColor.h"
 #include <string>
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include <vector>
 
 //Copia práctica 3A
 class igvMallaTriangulos 
@@ -27,7 +28,10 @@ class igvMallaTriangulos
 		long int num_triangulos; // número de triángulos de la malla de triángulos
 		unsigned int *triangulos; // array con los (num_triangulos * 3) índices a los vértices de cada triángulo
 
-		float* coordTex;
+		float* texCoords; //array con las coordenadas de textura
+
+		igvColor colorSeleccion;
+		igvColor color;
 
 	public:
 		// Constructor y destructor
@@ -40,7 +44,8 @@ class igvMallaTriangulos
 
 		// Método con las llamadas OpenGL para visualizar la malla de triángulos
 		void visualizar();
-
+		void setColor(igvColor c) { color = c; }
+		void setColorSeleccion(igvColor c) { colorSeleccion = c; }
 
 };
 
