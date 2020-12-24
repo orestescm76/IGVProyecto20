@@ -16,9 +16,10 @@ void igvQuad::visualizar()
 	float divisionZ = tam_z / div_z;
 	float x, z, s, t, ss, tt;
 	glNormal3f(0, 1, 0);
-	glMaterialfv(GL_FRONT, GL_EMISSION, color.cloneToFloatArray());
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color.cloneToFloatArray());
 	glColor3fv(colorSeleccion.cloneToFloatArray());
 	glBegin(GL_QUADS);
+
 	for (int i = 0; i < div_x; i++)
 	{
 		for (int j = 0; j < div_z; j++)

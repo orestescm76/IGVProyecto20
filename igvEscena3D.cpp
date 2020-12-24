@@ -13,7 +13,7 @@
 * seleccion
 * EXTRA: meter modelos
 */
-igvEscena3D::igvEscena3D() : paracleto("floppa.png")
+igvEscena3D::igvEscena3D() : paracleto("cheers.jpg")
 {
 	ejes = true;
 	cilindro = new igvCilindro(2,2,50,10);
@@ -38,7 +38,12 @@ void igvEscena3D::visualizar()
 
 	luzFija->aplicar();
 	paracleto.aplicar();
+	glPushMatrix();
+	glRotatef(180, 0,0,1);
+	glTranslatef(0, -2, 0);
+	glRotatef(90, 0, 1, 0);
 	cilindro->visualizar();
+	glPopMatrix();
 	quad->visualizar();
 	glPopMatrix();
 }
@@ -80,10 +85,10 @@ void igvEscena3D::activarSeleccion(int obj)
 	switch (obj)
 	{
 	case 1: //cilindro
-		cilindro->setColor(igvColor(0.992, 0.961, 0.2));
+		cilindro->setColor(igvColor(0.75, 0.75, 0.4));
 		break;
 	case 2: //quad
-		quad->setColor(igvColor(0.992, 0.961, .2));
+		quad->setColor(igvColor(.75, .75, .4));
 		break;
 	case -1:
 		restablecerColores();

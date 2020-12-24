@@ -22,11 +22,11 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 	texCoords = new float[num_vertices*2];
 	//Rellenado de vértices, caso de abajo.
 	float div = (2 * 3.141592) / divU;
-
+	int tc = 0;
 	for (int h = 0; h <= divV+1; h++) //por cada altura...
 	{
 		float aux = 0;
-		for (int i = h * divU*3; i < h * divU * 3+(divU * 3); i += 3)
+		for (int i = h * divU*3, divh=0; i < h * divU * 3+(divU * 3); i += 3, divh++)
 		{
 			float x = cos(aux) * r;
 			float y;
@@ -41,6 +41,10 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 			vertices[i + 1] = y;
 			vertices[i + 2] = z;
 			aux += div;
+			float s = (float)divh / divU; // s
+			float t = (float)h / (divV + 1); // t
+			texCoords[tc++] = s;
+			texCoords[tc++] = t;
 		}
 	}
 	//Para generar la coordenada de textura, me baso en el triángulo en el que estoy y el número de divisiones.
@@ -48,9 +52,10 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 	//Parte inferior.
 	int triangulo = 0; //Iterador que representa la esquina inferior del triangulo que estoy haciendo
 	int esqInf = 0;
+
 	for (int h = 0; h <= divV; h++) //por cada altura...
 	{
-		for (int i = esqInf*3,vert = 0, tc = 0; i < (esqInf+divU)*3; i+=3, vert++, tc+=2)
+		for (int i = esqInf*3,vert = 0; i < (esqInf+divU)*3; i+=3, vert++)
 		{
 			if (triangulo == divU - 1+(h*divU))
 			{
@@ -64,8 +69,8 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 				triangulos[i + 1] = triangulo+1;
 				triangulos[i + 2] = triangulo;
 			}
-			texCoords[tc] = (float)vert / divU;
-			texCoords[tc+1] = (float)h / divV;
+			/*texCoords[tc++] = (float)vert / divU;
+			texCoords[tc++] = (float)h / divV;*/
 			triangulo++;
 		}
 		esqInf+=divU;
@@ -76,7 +81,7 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 	esqInf = 0;
 	for (int h = 0; h <= divV; h++) //por cada altura...
 	{
-		for (int i = esqInf*3+((num_triangulos/2)*3); i < ((esqInf + divU) * 3 )+ ((num_triangulos / 2)*3); i += 3)
+		for (int i = esqInf*3+((num_triangulos/2)*3), vert = 0; i < ((esqInf + divU) * 3 )+ ((num_triangulos / 2)*3); i += 3, vert++)
 		{
 			if (triangulo == divU - 1 + (h * divU))
 			{
@@ -91,6 +96,8 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 				triangulos[i + 1] = triangulo + 1;
 				triangulos[i + 2] = triangulo + divU;
 			}
+			//texCoords[tc++] = (float)vert / divU;
+			//texCoords[tc++] = (float)h / divV;
 			triangulo++;
 		}
 		esqInf += divU;
