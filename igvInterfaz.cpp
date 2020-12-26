@@ -10,9 +10,9 @@ igvInterfaz::~igvInterfaz() {}
 
 void igvInterfaz::crearMundo()
 {
-	/*interfaz.camara.set(IGV_PARALELA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),
+	/*interfaz.camara.set(IGV_PARALELA, igvPunto3D(5,5,5), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),
 		-1 * 4.5, 1 * 4.5, -1 * 4.5, 1 * 4.5, -1 * 3, 200);*/
-	interfaz.camara.set(IGV_PERSPECTIVA, igvPunto3D(3.0, 2.0, 4), igvPunto3D(3,2,4), igvPunto3D(0, 1.0, 0), 60, (double)interfaz.ancho_ventana/(double)interfaz.alto_ventana, 1,6);
+	interfaz.camara.set(IGV_PERSPECTIVA, igvPunto3D(5,5,5), igvPunto3D(0,0,0), igvPunto3D(0, 1.0, 0), 60, (double)interfaz.ancho_ventana/(double)interfaz.alto_ventana, 1,200);
 }
 
 void igvInterfaz::configurarEntorno(int argc, char** argv, int _ancho_ventana, int _alto_ventana, int _pos_X, int _pos_Y, std::string _titulo)
@@ -73,9 +73,9 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 		else if (dx > 0 && abs(dy) < 5)
 			a += .01;
 		if (dy < 0 && abs(dx) < 5)
-			punto[1] += .005;
+			punto[1] += .055;
 		else if (dy > 0 && abs(dx) < 5)
-			punto[1] -= .005;
+			punto[1] -= .055;
 
 		//guardar la nueva posición del ratón 
 		interfaz.cursorX = x;
@@ -94,20 +94,30 @@ void igvInterfaz::menuHandle(int value)
 void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 {
 	igvPunto3D punto(interfaz.camara.getPuntoReferencia());
+	igvPunto3D pos(interfaz.camara.getPosicion());
+	float vecForward[3] = { punto.c[0] - pos.c[0], punto.c[1] - pos.c[1], punto.c[2] - pos.c[2] };
+	igvPunto3D mov(vecForward[0], vecForward[1], vecForward[2]);
+	mov.normalizar();
 	float a = interfaz.camara.getAngulo();
 	switch (key)
 	{
 	case 'w': //delante
-		punto.c[1] += .25;
+		pos[0] += mov[0] * 1.15;
+		pos[1] += mov[1] * 1.15;
+		pos[2] += mov[2] * 1.15;
+		//punto.c[1] += .25;
 		break;
 	case 's': //detrás
-		punto.c[1] -= .25;
+		pos[0] -= mov[0] * 1.15;
+		pos[1] -= mov[1] * 1.15;
+		pos[2] -= mov[2] * 1.15;
+		//punto.c[1] -= .25;
 		break;
 	case 'a': //mira a la izquierda
-		a -= 0.1;
+		a += 0.2;
 		break;
 	case 'd': //mira a la derecha
-		a += 0.1;
+		a -= 0.2;
 		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
@@ -121,6 +131,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	default:
 		break;
 	}
+	interfaz.camara.setPos(pos);
 	interfaz.camara.setPuntoReferencia(punto);
 	interfaz.camara.setAnguloyRotar(a);
 	interfaz.camara.aplicar();

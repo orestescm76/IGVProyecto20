@@ -72,7 +72,9 @@ class igvCamara
 		void zoom(double factor); // realiza un zoom sobre la cámara
 
 		igvPunto3D getPuntoReferencia() { return r; }
+		igvPunto3D getPosicion() { return P0; }
 		void setPuntoReferencia(igvPunto3D _r) { r = _r; }
+		void setPos(igvPunto3D _p) { P0 = _p; }
 		float getAngulo() { return ang; }
 		void setAnguloyRotar(float a);
 		void setRAspecto(double r) { raspecto = r; }

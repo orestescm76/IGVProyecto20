@@ -5,8 +5,8 @@
 * funciones sencillas con el teclado para moverla y ampliar (será perspectiva)
 * cargar texturas
 * crear varios materiales, investigando - configurar parametros material con teclas ya implementadas, fácil porque sé cual es el activo para cada uno.
-* crear la textura del cilindro
-* coordtex para el cilindro //jodido y medio
+* crear la textura del cilindro //uhh
+* coordtex para el cilindro //hecho
 * crear la clase igvCD
 * meter una tetera si eso
 * meter mas luces si eso
