@@ -56,6 +56,7 @@ void igvTextura::crearTextura(char* fichero)
 	}
 }
 
-igvTextura::~igvTextura() {
+igvTextura::~igvTextura() 
+{
   glDeleteTextures(1, &idTextura); 
 }

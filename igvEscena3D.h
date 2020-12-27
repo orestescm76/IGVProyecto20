@@ -1,10 +1,13 @@
 #pragma once
 #include <GL/glut.h>
+#include <vector>
 #include "igvCilindro.h"
 #include "igvFuenteLuz.h"
 #include "igvQuad.h"
 #include "igvMaterial.h"
 #include "igvTextura.h"
+
+const unsigned short numObjetos = 3;
 
 class igvEscena3D
 {
@@ -12,7 +15,13 @@ class igvEscena3D
 	igvCilindro* cilindro;
 	igvFuenteLuz* luzFija;
 	igvQuad* quad;
-	igvTextura paracleto;
+	std::vector<igvTextura*> texturas;
+	std::vector<igvColor*> colores;
+	int texturaAplicada[numObjetos];
+	int colorAplicado[numObjetos];
+	void aplicarTextura(int objeto);
+	void aplicarColor(int objeto);
+	igvColor colorTetera;
 public:
 	igvEscena3D();
 	~igvEscena3D();
@@ -23,5 +32,7 @@ public:
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 	void activarSeleccion(int obj);
 	void restablecerColores();
+	void setAplicacionTextura(int objeto, int textura);
+	void setAplicacionColor(int objeto, int color);
 };
 

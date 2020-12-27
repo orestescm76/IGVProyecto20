@@ -1,7 +1,7 @@
 #include "igvQuad.h"
 
 
-igvQuad::igvQuad(int dx, int dz, float tx, float tz): div_x(dx), div_z(dz), tam_x(tx), tam_z(tz), color(igvColor(1,0,0))
+igvQuad::igvQuad(int dx, int dz, float tx, float tz): div_x(dx), div_z(dz), tam_x(tx), tam_z(tz)
 {
 
 }

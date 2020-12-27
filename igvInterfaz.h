@@ -11,6 +11,24 @@ typedef enum
 }
 modoInterfaz;
 
+enum colores
+{
+	ROJO,
+	DORADO,
+	VERDE,
+	AZUL,
+	MORADO,
+	GRIS
+};
+
+enum texturas
+{
+	GIYGAS,
+	PARACLETO,
+	WINDOWS_95,
+	PIEDRA,
+	DIAMANTE_MC
+};
 class igvInterfaz
 {
 	int ancho_ventana;
@@ -18,6 +36,8 @@ class igvInterfaz
 	igvCamara camara;
 	igvEscena3D escena;
 	int seleccionMenu;
+	int textura;
+	int color;
 	//Atributos para el mouse.
 	modoInterfaz modo;
 	int cursorX = 0, cursorY = 0;
@@ -43,5 +63,7 @@ public:
 	static void set_glutMotionFunc(GLint x, GLint y);
 	static void menuHandle(int value); //Función para manejar menús
 	void inicializarEventos();
+	static void procesarTextura(int val);
+	static void procesarColor(int val);
 };
 

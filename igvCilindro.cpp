@@ -7,7 +7,6 @@ igvCilindro::igvCilindro() :igvMallaTriangulos()
 
 igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV(divV)
 {
-	this->color = igvColor(.5, .5, 0);
 	//0 divsiones seria num divisiones *2 
 	//1 divisiones seria *3 
 	//2 divisiones seria *4

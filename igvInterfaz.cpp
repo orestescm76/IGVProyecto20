@@ -42,9 +42,27 @@ void igvInterfaz::iniciarBucle()
 
 void igvInterfaz::crearMenu()
 {
-	int menu_id = glutCreateMenu(menuHandle);
-	glutAddMenuEntry("Test", 0);
-	glutAddMenuEntry("Test2", 1);
+	int menu_textura = glutCreateMenu(procesarTextura);
+	glutAddMenuEntry("Giygas", GIYGAS);
+	glutAddMenuEntry("Paracletus", PARACLETO);
+	glutAddMenuEntry("Windows 95", WINDOWS_95);
+	glutAddMenuEntry("Piedra", PIEDRA);
+	glutAddMenuEntry("Diamante!", DIAMANTE_MC);
+	int menu_color = glutCreateMenu(procesarColor);
+	glutAddMenuEntry("Rojo", ROJO);
+	glutAddMenuEntry("Dorado", DORADO);
+	glutAddMenuEntry("Verde", VERDE);
+	glutAddMenuEntry("Azul", AZUL);
+	glutAddMenuEntry("Morado", MORADO);
+	glutAddMenuEntry("Gris", GRIS);
+	int menu = glutCreateMenu(menuHandle);
+	glutAddSubMenu("Texturas", menu_textura);
+	glutAddSubMenu("Colores", menu_color);
+	glutAddMenuEntry("Salir", 200);
+
+
+
+
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -89,6 +107,8 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 void igvInterfaz::menuHandle(int value)
 {
 	interfaz.seleccionMenu = value;
+	if (value == 200)
+		exit(0);
 	glutPostRedisplay();
 }
 void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
@@ -160,17 +180,6 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 			interfaz.cursorX = x;
 			interfaz.cursorY = interfaz.alto_ventana - y;
 		}
-
-		break;
-	case GLUT_RIGHT_BUTTON:
-		if (estado == GLUT_DOWN)
-		{
-			interfaz.boton_retenido = false;
-			interfaz.modo = IGV_SELECCIONAR;
-			// Apartado A: guardar el pixel pulsado
-			interfaz.cursorX = x;
-			interfaz.cursorY = interfaz.alto_ventana - y;
-		}
 		break;
 	default:
 		break;
@@ -230,4 +239,20 @@ void igvInterfaz::inicializarEventos()
 	glutKeyboardFunc(set_glutKeyboardFunc);
 	glutMouseFunc(set_glutMouseFunc);
 	glutMotionFunc(set_glutMotionFunc);
+}
+
+void igvInterfaz::procesarTextura(int val)
+{
+	interfaz.escena.setAplicacionTextura(interfaz.objeto_seleccionado, val);
+	interfaz.objeto_seleccionado = -1;
+	interfaz.escena.restablecerColores();
+	glutPostRedisplay();
+}
+
+void igvInterfaz::procesarColor(int val)
+{
+	interfaz.escena.setAplicacionColor(interfaz.objeto_seleccionado, val);
+	interfaz.objeto_seleccionado = -1;
+	interfaz.escena.restablecerColores();
+	glutPostRedisplay();
 }
