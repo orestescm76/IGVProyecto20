@@ -3,6 +3,8 @@ void igvEscena3D::aplicarTextura(int objeto)
 {
 	if (texturaAplicada[objeto] != -1)
 		texturas[texturaAplicada[objeto]]->aplicar();
+	else
+		glDisable(GL_TEXTURE_2D);
 }
 void igvEscena3D::aplicarColor(int objeto)
 {
@@ -28,9 +30,9 @@ void igvEscena3D::aplicarColor(int objeto)
 * crear la textura del cilindro //uhh
 * coordtex para el cilindro //hecho
 * crear la clase igvCD
-* meter una tetera si eso
+* meter una tetera si eso //fet 
 * meter mas luces si eso
-* seleccion
+* seleccion //fet
 * EXTRA: meter modelos
 */
 igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)

@@ -68,3 +68,12 @@ void igvPunto3D::normalizar()
 		c[i] /= distancia;
 	}
 }
+
+igvPunto3D igvPunto3D::getProductoVectorial(const igvPunto3D& vec)
+{
+	igvPunto3D ans;
+	ans[0] = c[1] * vec[2] - c[2] * vec[1];
+	ans[1] = -(c[0] * vec[2] - c[2] * vec[0]);
+	ans[2] = c[0] * vec[1] - c[1] * vec[0];
+	return ans;
+}

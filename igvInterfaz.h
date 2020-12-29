@@ -27,7 +27,8 @@ enum texturas
 	PARACLETO,
 	WINDOWS_95,
 	PIEDRA,
-	DIAMANTE_MC
+	DIAMANTE_MC,
+	NINGUNA = -1
 };
 class igvInterfaz
 {
@@ -61,6 +62,7 @@ public:
 	static void set_glutKeyboardFunc(unsigned char key, int x, int y);
 	static void set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y);
 	static void set_glutMotionFunc(GLint x, GLint y);
+	static void set_glutSpecialFunc(int key, int x, int y);
 	static void menuHandle(int value); //Función para manejar menús
 	void inicializarEventos();
 	static void procesarTextura(int val);

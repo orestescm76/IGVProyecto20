@@ -11,6 +11,7 @@ igvTextura::igvTextura(std::string fich) {
 
 void igvTextura::aplicar(void) 
 {
+	glEnable(GL_TEXTURE_2D);
 	if (idTextura == 0)
 		crearTextura((char*) fichero.c_str());
   glBindTexture(GL_TEXTURE_2D, idTextura);
@@ -18,9 +19,6 @@ void igvTextura::aplicar(void)
 
 void igvTextura::crearTextura(char* fichero)
 {
-	SDL_Surface* imagen = NULL;
-
-	glEnable(GL_TEXTURE_2D);
 	if (!glIsTexture(idTextura)) {
 
 		imagen = IMG_Load(fichero);

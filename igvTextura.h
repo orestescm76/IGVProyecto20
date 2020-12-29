@@ -20,7 +20,7 @@ class igvTextura {
 		unsigned int idTextura; // identificador de la textura
 		unsigned int alto,  // alto de la textura
 			           ancho; // ancho de la textura
-		
+		SDL_Surface* imagen = nullptr;
 		std::string fichero;
 		// Metodos
 

@@ -48,6 +48,7 @@ void igvInterfaz::crearMenu()
 	glutAddMenuEntry("Windows 95", WINDOWS_95);
 	glutAddMenuEntry("Piedra", PIEDRA);
 	glutAddMenuEntry("Diamante!", DIAMANTE_MC);
+	glutAddMenuEntry("Ninguna", NINGUNA);
 	int menu_color = glutCreateMenu(procesarColor);
 	glutAddMenuEntry("Rojo", ROJO);
 	glutAddMenuEntry("Dorado", DORADO);
@@ -85,15 +86,16 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 		float a = interfaz.camara.getAngulo();
 		int dx = interfaz.cursorX - x;
 		int dy = interfaz.cursorY - y;
+
 		//se mueve un poco janky pero funciona...
 		if (dx < 0 && abs(dy) < 5)
-			a -= .01;
+			a += .2*dx;
 		else if (dx > 0 && abs(dy) < 5)
-			a += .01;
+			a += .2* dx;
 		if (dy < 0 && abs(dx) < 5)
-			punto[1] += .055;
+			punto[1] += .04 *(-dy);
 		else if (dy > 0 && abs(dx) < 5)
-			punto[1] -= .055;
+			punto[1] -= .04* (dy);
 
 		//guardar la nueva posición del ratón 
 		interfaz.cursorX = x;
@@ -103,6 +105,33 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 	}
 	interfaz.camara.aplicar();
 	glutPostRedisplay();
+}
+void igvInterfaz::set_glutSpecialFunc(int key, int x, int y)
+{
+	// Manejo de la cámara con las teclas del ratón...
+	igvPunto3D punto = interfaz.camara.getPuntoReferencia();
+	float a = interfaz.camara.getAngulo();
+	switch (key)
+	{
+	case GLUT_KEY_RIGHT:
+		a += 7;
+		break;
+	case GLUT_KEY_LEFT:
+		a -= 7;
+		break;
+	case GLUT_KEY_UP:
+		punto.c[1] += .25;
+		break;
+	case GLUT_KEY_DOWN:
+		punto.c[1] -= .25;
+		break;
+	default:
+		break;
+	}
+	interfaz.camara.setPuntoReferencia(punto);
+	interfaz.camara.setAnguloyRotar(a);
+	interfaz.camara.aplicar();
+	glutPostRedisplay(); // renueva el contenido de la ventana de vision
 }
 void igvInterfaz::menuHandle(int value)
 {
@@ -119,25 +148,29 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	igvPunto3D mov(vecForward[0], vecForward[1], vecForward[2]);
 	mov.normalizar();
 	float a = interfaz.camara.getAngulo();
+	igvPunto3D arriba(0, 1, 0);
+	igvPunto3D movLat = mov.getProductoVectorial(arriba);
 	switch (key)
 	{
 	case 'w': //delante
 		pos[0] += mov[0] * 1.15;
 		pos[1] += mov[1] * 1.15;
 		pos[2] += mov[2] * 1.15;
-		//punto.c[1] += .25;
 		break;
 	case 's': //detrás
 		pos[0] -= mov[0] * 1.15;
 		pos[1] -= mov[1] * 1.15;
 		pos[2] -= mov[2] * 1.15;
-		//punto.c[1] -= .25;
 		break;
-	case 'a': //mira a la izquierda
-		a += 0.2;
+	case 'd': //ve a la derecha
+		pos[0] += movLat[0] * 1.15;
+		pos[1] += movLat[1] * 1.15;
+		pos[2] += movLat[2] * 1.15;
 		break;
-	case 'd': //mira a la derecha
-		a -= 0.2;
+	case 'a': //ve a la derecha
+		pos[0] -= movLat[0] * 1.15;
+		pos[1] -= movLat[1] * 1.15;
+		pos[2] -= movLat[2] * 1.15;
 		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
@@ -239,6 +272,7 @@ void igvInterfaz::inicializarEventos()
 	glutKeyboardFunc(set_glutKeyboardFunc);
 	glutMouseFunc(set_glutMouseFunc);
 	glutMotionFunc(set_glutMotionFunc);
+	glutSpecialFunc(set_glutSpecialFunc);
 }
 
 void igvInterfaz::procesarTextura(int val)

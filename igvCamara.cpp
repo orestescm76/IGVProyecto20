@@ -2,7 +2,7 @@
 
 
 #include "igvCamara.h"
-
+#include <iostream>
 // Metodos constructores
 
 igvCamara::igvCamara () {}
@@ -41,6 +41,7 @@ void igvCamara::set(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D 
 	ywmax = _ywmax;
 	znear = _znear;
 	zfar = _zfar;
+
 }
 
 void igvCamara::set(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D _V,
@@ -56,6 +57,10 @@ void igvCamara::set(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D 
 	raspecto = _raspecto;
 	znear = _znear;
 	zfar = _zfar;
+	float distancia = pow(P0[0] - r[0], 2) + pow(P0[2] - r[2], 2);
+	distancia = sqrt(distancia);
+	ang = acos((r[0]-P0[0]) / distancia);
+	ang *= 57.2957795;
 }
 
 void igvCamara::aplicar(void) 
@@ -87,8 +92,12 @@ void igvCamara::zoom(double factor)
 void igvCamara::setAnguloyRotar(float a)
 {
 	ang = a;
-	r.c[0] = P0.c[0] + sin(ang);
-	r.c[2] = P0.c[2] + (-cos(ang));
-	/*P0.c[0] += r.c[0] * 0.01;
-	P0.c[1] += r.c[1] * 0.01;*/
+	float angRad = ang / 57.2957795;
+	float distancia = pow(P0[0]-r[0], 2) + pow(P0[2]-r[2], 2);
+	distancia = sqrt(distancia);
+
+	r.c[0] = distancia* cos(angRad) + P0[0];
+	r.c[2] = distancia* (sin(angRad)) + P0[2];
+
+	std::cout << r[0] << " " << r[1] << " " << r[2] << '\n';
 }

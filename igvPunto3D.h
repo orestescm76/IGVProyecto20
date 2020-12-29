@@ -50,5 +50,6 @@ class igvPunto3D
 		void set( const double& x, const double& y, const double& z);
 		float* cloneToFloatArray() const; //Devuelve el punto en un array de float
 		void normalizar(); //normaliza el vector
+		igvPunto3D getProductoVectorial(const igvPunto3D &vec); //Devuelve un producto vectorial.
 };
 
