@@ -7,6 +7,8 @@ igvTextura::igvTextura(std::string fich) {
 	alto = 0;
 	idTextura = 0;
 	fichero = fich;
+	modoAplicacion = GL_MODULATE;
+	filtro = GL_LINEAR;
 }
 
 void igvTextura::aplicar(void) 
@@ -14,7 +16,12 @@ void igvTextura::aplicar(void)
 	glEnable(GL_TEXTURE_2D);
 	if (idTextura == 0)
 		crearTextura((char*) fichero.c_str());
-  glBindTexture(GL_TEXTURE_2D, idTextura);
+	//  - Modo de aplicación de la textura (glTexEnvf)
+	//	- Parámetros de la textura: repetición y filtros (glTexParameteri)
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, modoAplicacion);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtro);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtro);
+	glBindTexture(GL_TEXTURE_2D, idTextura);
 }
 
 void igvTextura::crearTextura(char* fichero)
@@ -42,12 +49,10 @@ void igvTextura::crearTextura(char* fichero)
 		//  - Especificar la textura, asignádole como textura el array imagen (glTexImage2D)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imagen->w, imagen->h, 0, GL_RGB, GL_UNSIGNED_BYTE, imagen->pixels);
 		//  - Modo de aplicación de la textura (glTexEnvf)
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		
 		//	- Parámetros de la textura: repetición y filtros (glTexParameteri)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		SDL_FreeSurface(imagen);
 

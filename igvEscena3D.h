@@ -35,5 +35,7 @@ public:
 	void restablecerColores();
 	void setAplicacionTextura(int objeto, int textura);
 	void setAplicacionColor(int objeto, int color);
+	void setAplicacionTexturaOpenGL(int objeto, int val);
+	void setFiltro(int objeto, int val);
 };
 

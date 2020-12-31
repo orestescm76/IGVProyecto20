@@ -55,9 +55,19 @@ void igvInterfaz::crearMenu()
 	glutAddMenuEntry("Azul", AZUL);
 	glutAddMenuEntry("Morado", MORADO);
 	glutAddMenuEntry("Gris", GRIS);
+	int menu_aplicacion_textura = glutCreateMenu(procesarAplicacionTextura);
+	glutAddMenuEntry("Replace", GL_REPLACE);
+	glutAddMenuEntry("Decal", GL_DECAL);
+	glutAddMenuEntry("Blend", GL_BLEND);
+	glutAddMenuEntry("Modulate", GL_MODULATE);
+	int menu_aplicacion_filtro = glutCreateMenu(procesarFiltro);
+	glutAddMenuEntry("Linear", GL_LINEAR);
+	glutAddMenuEntry("Nearest", GL_NEAREST);
 	int menu = glutCreateMenu(menuHandle);
 	glutAddSubMenu("Texturas", menu_textura);
 	glutAddSubMenu("Colores", menu_color);
+	glutAddSubMenu("Aplicacion textura", menu_aplicacion_textura);
+	glutAddSubMenu("Filtro de la textura", menu_aplicacion_filtro);
 	glutAddMenuEntry("Salir", 200);
 
 
@@ -288,6 +298,22 @@ void igvInterfaz::procesarTextura(int val)
 void igvInterfaz::procesarColor(int val)
 {
 	interfaz.escena.setAplicacionColor(interfaz.objeto_seleccionado, val);
+	interfaz.objeto_seleccionado = -1;
+	interfaz.escena.restablecerColores();
+	glutPostRedisplay();
+}
+
+void igvInterfaz::procesarAplicacionTextura(int val)
+{
+	interfaz.escena.setAplicacionTexturaOpenGL(interfaz.objeto_seleccionado, val);
+	interfaz.objeto_seleccionado = -1;
+	interfaz.escena.restablecerColores();
+	glutPostRedisplay();
+}
+
+void igvInterfaz::procesarFiltro(int val)
+{
+	interfaz.escena.setFiltro(interfaz.objeto_seleccionado, val);
 	interfaz.objeto_seleccionado = -1;
 	interfaz.escena.restablecerColores();
 	glutPostRedisplay();

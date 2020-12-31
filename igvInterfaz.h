@@ -67,5 +67,7 @@ public:
 	void inicializarEventos();
 	static void procesarTextura(int val);
 	static void procesarColor(int val);
+	static void procesarAplicacionTextura(int val);
+	static void procesarFiltro(int val);
 };
 

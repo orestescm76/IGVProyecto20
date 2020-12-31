@@ -23,25 +23,11 @@ void igvEscena3D::aplicarColor(int objeto)
 		caballitoDePalo->setColor(*colores[colorAplicado[objeto]]);
 	}
 }
-/*
-* POR HACER:
-* implementar la rotacion de la camara con el boton central - done?
-* funciones sencillas con el teclado para moverla y ampliar (será perspectiva)
-* cargar texturas //done, aunque sean una porquería
-* crear varios materiales, investigando - configurar parametros material con teclas ya implementadas, fácil porque sé cual es el activo para cada uno.
-* crear la textura del cilindro //uhh
-* coordtex para el cilindro //hecho
-* crear la clase igvCD
-* meter una tetera si eso //fet 
-* meter mas luces si eso
-* seleccion //fet
-* EXTRA: meter modelos
-*/
 igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)
 {
 	cilindro = new igvCilindro(2,2,50,10);
 	cilindro->setColorSeleccion(igvColor(0, 0, 0));
-	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 10.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
+	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 5.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
 	quad = new igvQuad(200,200,5,5);
 	quad->setColorSeleccion(igvColor(0, 1.0/255.0, 0));
 
@@ -59,7 +45,7 @@ igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)
 	colores.push_back(new igvColor(0, 1, 0)); //verde
 	colores.push_back(new igvColor(0, 0, 1)); //azul
 	colores.push_back(new igvColor(0.333, 0.141, 0.424)); //morado
-	colores.push_back(new igvColor(.4,.4,.4));
+	colores.push_back(new igvColor(.4,.4,.4)); //gris
 	colorAplicado[0] = 2;
 	colorAplicado[1] = 0;
 	colorAplicado[2] = 5;
@@ -186,4 +172,16 @@ void igvEscena3D::setAplicacionTextura(int objeto, int textura)
 void igvEscena3D::setAplicacionColor(int objeto, int color)
 {
 	colorAplicado[objeto] = color;
+}
+
+void igvEscena3D::setAplicacionTexturaOpenGL(int objeto, int val)
+{
+	if(texturaAplicada[objeto] != -1)
+		texturas[texturaAplicada[objeto]]->setAplicacion(val);
+}
+
+void igvEscena3D::setFiltro(int objeto, int val)
+{
+	if (texturaAplicada[objeto] != -1)
+		texturas[texturaAplicada[objeto]]->setFiltro(val);
 }

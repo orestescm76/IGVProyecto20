@@ -22,6 +22,8 @@ class igvTextura {
 			           ancho; // ancho de la textura
 		SDL_Surface* imagen = nullptr;
 		std::string fichero;
+		int modoAplicacion;
+		int filtro;
 		// Metodos
 
 	public:
@@ -34,6 +36,8 @@ class igvTextura {
 		void setIdTextura(unsigned int id) { this->idTextura = id;}
 		unsigned int getIdTextura() { return this->idTextura; }
 		void crearTextura(char* fichero);
+		void setAplicacion(int app) { modoAplicacion = app; }
+		void setFiltro(int f) { filtro = f; }
 };
 
 #endif
