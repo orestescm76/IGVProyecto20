@@ -6,8 +6,8 @@
 #include "igvQuad.h"
 #include "igvMaterial.h"
 #include "igvTextura.h"
-
-const unsigned short numObjetos = 3;
+#include "igvCaballo.h"
+const unsigned short numObjetos = 4;
 
 class igvEscena3D
 {
@@ -15,6 +15,7 @@ class igvEscena3D
 	igvCilindro* cilindro;
 	igvFuenteLuz* luzFija;
 	igvQuad* quad;
+	igvCaballo* caballitoDePalo;
 	std::vector<igvTextura*> texturas;
 	std::vector<igvColor*> colores;
 	int texturaAplicada[numObjetos];

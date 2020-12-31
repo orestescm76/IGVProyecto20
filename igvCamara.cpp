@@ -1,8 +1,4 @@
-
-
-
 #include "igvCamara.h"
-#include <iostream>
 // Metodos constructores
 
 igvCamara::igvCamara () {}
@@ -98,6 +94,4 @@ void igvCamara::setAnguloyRotar(float a)
 
 	r.c[0] = distancia* cos(angRad) + P0[0];
 	r.c[2] = distancia* (sin(angRad)) + P0[2];
-
-	std::cout << r[0] << " " << r[1] << " " << r[2] << '\n';
 }

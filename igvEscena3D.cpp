@@ -19,6 +19,8 @@ void igvEscena3D::aplicarColor(int objeto)
 	case 2:
 		colorTetera = *colores[colorAplicado[objeto]];
 		break;
+	case 3:
+		caballitoDePalo->setColor(*colores[colorAplicado[objeto]]);
 	}
 }
 /*
@@ -39,15 +41,15 @@ igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)
 {
 	cilindro = new igvCilindro(2,2,50,10);
 	cilindro->setColorSeleccion(igvColor(0, 0, 0));
-	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 2.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
+	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 10.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
 	quad = new igvQuad(200,200,5,5);
 	quad->setColorSeleccion(igvColor(0, 1.0/255.0, 0));
 
 	texturas.push_back(new igvTextura("./texturas/giygas.png"));
 	texturas.push_back(new igvTextura("./texturas/paracleto.jpg"));
-	texturas.push_back(new igvTextura("./texturas/win95setup.png"));
+	texturas.push_back(new igvTextura("./texturas/win95.jpg"));
 	texturas.push_back(new igvTextura("./texturas/piedra.jpg"));
-	texturas.push_back(new igvTextura("./texturas/diamante.jpg"));
+	texturas.push_back(new igvTextura("./texturas/marmol.jpg"));
 	for (int i = 0; i < numObjetos; i++)
 	{
 		texturaAplicada[i] = -1;
@@ -61,6 +63,9 @@ igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)
 	colorAplicado[0] = 2;
 	colorAplicado[1] = 0;
 	colorAplicado[2] = 5;
+	colorAplicado[3] = 5;
+	caballitoDePalo = new igvCaballo();
+	caballitoDePalo->setColorSeleccion(igvColor(0, 3.0 / 255.0, 0));
 	restablecerColores();
 }
 
@@ -92,6 +97,12 @@ void igvEscena3D::visualizar()
 			aplicarTextura(2);
 			glutSolidTeapot(1);
 		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(4.5,0,0);
+			glScalef(.25,.25,.25);
+			aplicarTextura(3);
+			caballitoDePalo->visualizar();
+		glPopMatrix();
 	glPopMatrix();
 }
 
@@ -103,6 +114,11 @@ void igvEscena3D::visualizarSeleccion()
 		glColor3f(0, 2.0 / 255, 0);
 		glTranslatef(0, 0, 5);
 		glutSolidTeapot(1);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(4.5, 0, 0);
+		glScalef(.25,.25,.25);
+		caballitoDePalo->visualizar();
 	glPopMatrix();
 }
 
@@ -144,6 +160,9 @@ void igvEscena3D::activarSeleccion(int obj)
 		break;
 	case 2: //tetera
 		colorTetera = igvColor(.75, .75, .4);
+		break;
+	case 3: //caballito
+		caballitoDePalo->setColor(igvColor(.75, .75, .4));
 		break;
 	case -1:
 		restablecerColores();

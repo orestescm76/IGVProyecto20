@@ -38,15 +38,23 @@ igvMallaTriangulos::~igvMallaTriangulos()
 
 void igvMallaTriangulos::visualizar(void) 
 {
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color.cloneToFloatArray());
+	glColor3fv(colorSeleccion.cloneToFloatArray());
 
-	glShadeModel(GL_FLAT);
-
-	/* Apartado B: TODO */
+	glShadeModel(GL_SMOOTH);
 	glEnableClientState(GL_VERTEX_ARRAY);
-
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glDrawElements(GL_TRIANGLES, num_triangulos*3, GL_UNSIGNED_INT, triangulos);
+
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, 0, normales);
+
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawElements(GL_TRIANGLES, num_triangulos * 3, GL_UNSIGNED_INT, triangulos);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 

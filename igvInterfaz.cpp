@@ -1,5 +1,4 @@
 #include "igvInterfaz.h"
-#include <iostream>
 extern igvInterfaz interfaz;
 
 igvInterfaz::igvInterfaz() 
@@ -47,7 +46,7 @@ void igvInterfaz::crearMenu()
 	glutAddMenuEntry("Paracletus", PARACLETO);
 	glutAddMenuEntry("Windows 95", WINDOWS_95);
 	glutAddMenuEntry("Piedra", PIEDRA);
-	glutAddMenuEntry("Diamante!", DIAMANTE_MC);
+	glutAddMenuEntry("Marmol", MARMOL);
 	glutAddMenuEntry("Ninguna", NINGUNA);
 	int menu_color = glutCreateMenu(procesarColor);
 	glutAddMenuEntry("Rojo", ROJO);
@@ -120,10 +119,10 @@ void igvInterfaz::set_glutSpecialFunc(int key, int x, int y)
 		a -= 7;
 		break;
 	case GLUT_KEY_UP:
-		punto.c[1] += .25;
+		punto.c[1] += .75;
 		break;
 	case GLUT_KEY_DOWN:
-		punto.c[1] -= .25;
+		punto.c[1] -= .75;
 		break;
 	default:
 		break;
@@ -156,6 +155,9 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 		pos[0] += mov[0] * 1.15;
 		pos[1] += mov[1] * 1.15;
 		pos[2] += mov[2] * 1.15;
+		punto[0] += mov[0] * 1.15;
+		punto[1] += mov[1] * 1.15;
+		punto[2] += mov[2] * 1.15;
 		break;
 	case 's': //detrás
 		pos[0] -= mov[0] * 1.15;

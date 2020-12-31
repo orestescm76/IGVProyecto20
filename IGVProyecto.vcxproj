@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="igvCaballo.cpp" />
     <ClCompile Include="igvCamara.cpp" />
     <ClCompile Include="igvCilindro.cpp" />
     <ClCompile Include="igvColor.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="igvCaballo.h" />
     <ClInclude Include="igvCamara.h" />
     <ClInclude Include="igvCilindro.h" />
     <ClInclude Include="igvColor.h" />

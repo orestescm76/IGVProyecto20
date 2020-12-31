@@ -27,7 +27,7 @@ enum texturas
 	PARACLETO,
 	WINDOWS_95,
 	PIEDRA,
-	DIAMANTE_MC,
+	MARMOL,
 	NINGUNA = -1
 };
 class igvInterfaz
