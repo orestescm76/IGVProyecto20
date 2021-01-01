@@ -35,12 +35,6 @@ igvCaballo::igvCaballo(): mat()
 		{
 			triangulos[i] = cargador.LoadedIndices[i];
 		}
-		//Config material
-		igvColor ka(cargador.LoadedMaterials[0].Ka.X, cargador.LoadedMaterials[0].Ka.Y, cargador.LoadedMaterials[0].Ka.Z);
-		igvColor kd(cargador.LoadedMaterials[0].Kd.X, cargador.LoadedMaterials[0].Kd.Y, cargador.LoadedMaterials[0].Kd.Z);
-		igvColor ks(cargador.LoadedMaterials[0].Ks.X, cargador.LoadedMaterials[0].Ks.Y, cargador.LoadedMaterials[0].Ks.Z);
-		float ns =  cargador.LoadedMaterials[0].Ns;
-		mat.set(ka, kd, ks, ns);
 
 	}
 	else

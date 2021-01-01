@@ -12,6 +12,5 @@ class igvCaballo : public igvMallaTriangulos
 	
 public:
 	igvCaballo();
-	void aplicarMaterial() { mat.aplicar(); }
 };
 

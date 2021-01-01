@@ -21,6 +21,7 @@ void igvEscena3D::aplicarColor(int objeto)
 		break;
 	case 3:
 		caballitoDePalo->setColor(*colores[colorAplicado[objeto]]);
+		break;
 	}
 }
 igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true), colores(std::vector<igvColor*>())
