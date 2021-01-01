@@ -24,6 +24,7 @@ class igvTextura {
 		std::string fichero;
 		int modoAplicacion;
 		int filtro;
+		int repeticion;
 		// Metodos
 
 	public:
@@ -38,6 +39,7 @@ class igvTextura {
 		void crearTextura(char* fichero);
 		void setAplicacion(int app) { modoAplicacion = app; }
 		void setFiltro(int f) { filtro = f; }
+		void setRepeticion(int r) { repeticion = r; }
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "igvInterfaz.h"
 igvInterfaz interfaz;
-const std::string version = "v1.0 RC1";
+const std::string version = "v1.0 RC2";
 int main(int argc, char*argv[])
 {
 	interfaz.configurarEntorno(argc, argv, 1024, 768, 300,300, "Proyecto IGV " + version);

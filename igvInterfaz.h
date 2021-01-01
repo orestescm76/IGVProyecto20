@@ -23,11 +23,12 @@ enum colores
 
 enum texturas
 {
-	GIYGAS,
-	PARACLETO,
+	CACODEMON,
+	MIRAGE,
 	WINDOWS_95,
 	PIEDRA,
 	MARMOL,
+	HIERBA,
 	NINGUNA = -1
 };
 class igvInterfaz
@@ -57,6 +58,7 @@ public:
 	void configurarEntorno(int argc, char** argv, int _ancho_ventana, int _alto_ventana, int _pos_X, int _pos_Y, std::string _titulo);
 	void iniciarBucle();
 	void crearMenu();
+	//Eventos de OpenGL
 	static void set_glutReshapeFunc(int w, int h);
 	static void set_glutDisplayFunc();
 	static void set_glutKeyboardFunc(unsigned char key, int x, int y);
@@ -65,9 +67,11 @@ public:
 	static void set_glutSpecialFunc(int key, int x, int y);
 	static void menuHandle(int value); //Función para manejar menús
 	void inicializarEventos();
+	//Métodos del menú que sirven para aplicar los colores y las texturas, asi como su configuracion.
 	static void procesarTextura(int val);
 	static void procesarColor(int val);
 	static void procesarAplicacionTextura(int val);
 	static void procesarFiltro(int val);
+	static void procesarRepeticion(int val);
 };
 

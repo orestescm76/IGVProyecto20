@@ -9,8 +9,6 @@ igvInterfaz::~igvInterfaz() {}
 
 void igvInterfaz::crearMundo()
 {
-	/*interfaz.camara.set(IGV_PARALELA, igvPunto3D(5,5,5), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),
-		-1 * 4.5, 1 * 4.5, -1 * 4.5, 1 * 4.5, -1 * 3, 200);*/
 	interfaz.camara.set(IGV_PERSPECTIVA, igvPunto3D(5,5,5), igvPunto3D(0,0,0), igvPunto3D(0, 1.0, 0), 60, (double)interfaz.ancho_ventana/(double)interfaz.alto_ventana, 1,200);
 }
 
@@ -38,15 +36,16 @@ void igvInterfaz::iniciarBucle()
 {
 	glutMainLoop();
 }
-
+//Método que crea los menús cuando se presiona click derecho.
 void igvInterfaz::crearMenu()
 {
 	int menu_textura = glutCreateMenu(procesarTextura);
-	glutAddMenuEntry("Giygas", GIYGAS);
-	glutAddMenuEntry("Paracletus", PARACLETO);
+	glutAddMenuEntry("Cacodemonio", CACODEMON);
+	glutAddMenuEntry("Camel - Mirage", MIRAGE);
 	glutAddMenuEntry("Windows 95", WINDOWS_95);
 	glutAddMenuEntry("Piedra", PIEDRA);
 	glutAddMenuEntry("Marmol", MARMOL);
+	glutAddMenuEntry("Hierba", HIERBA);
 	glutAddMenuEntry("Ninguna", NINGUNA);
 	int menu_color = glutCreateMenu(procesarColor);
 	glutAddMenuEntry("Rojo", ROJO);
@@ -63,16 +62,17 @@ void igvInterfaz::crearMenu()
 	int menu_aplicacion_filtro = glutCreateMenu(procesarFiltro);
 	glutAddMenuEntry("Linear", GL_LINEAR);
 	glutAddMenuEntry("Nearest", GL_NEAREST);
+	int menu_repeticion = glutCreateMenu(procesarRepeticion);
+	glutAddMenuEntry("Repeat", GL_REPEAT);
+	glutAddMenuEntry("Clamp", GL_CLAMP);
 	int menu = glutCreateMenu(menuHandle);
 	glutAddSubMenu("Texturas", menu_textura);
 	glutAddSubMenu("Colores", menu_color);
 	glutAddSubMenu("Aplicacion textura", menu_aplicacion_textura);
+	glutAddSubMenu("Modo repeticion textura", menu_repeticion);
 	glutAddSubMenu("Filtro de la textura", menu_aplicacion_filtro);
 	glutAddMenuEntry("Salir", 200);
-
-
-
-
+	//Asignar el botón derecho para que se abra el menú.
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -97,6 +97,7 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y)
 		int dy = interfaz.cursorY - y;
 
 		//se mueve un poco janky pero funciona...
+		//Código para mover la cámara en función del movimiento del ratón.
 		if (dx < 0 && abs(dy) < 5)
 			a += .2*dx;
 		else if (dx > 0 && abs(dy) < 5)
@@ -142,6 +143,7 @@ void igvInterfaz::set_glutSpecialFunc(int key, int x, int y)
 	interfaz.camara.aplicar();
 	glutPostRedisplay(); // renueva el contenido de la ventana de vision
 }
+//Función que maneja el botón de salir, el resto son submenús
 void igvInterfaz::menuHandle(int value)
 {
 	interfaz.seleccionMenu = value;
@@ -151,14 +153,17 @@ void igvInterfaz::menuHandle(int value)
 }
 void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 {
+	//Recopilación de datos.
 	igvPunto3D punto(interfaz.camara.getPuntoReferencia());
 	igvPunto3D pos(interfaz.camara.getPosicion());
+	//Saco el vector movimiento y lo normalizo
 	float vecForward[3] = { punto.c[0] - pos.c[0], punto.c[1] - pos.c[1], punto.c[2] - pos.c[2] };
 	igvPunto3D mov(vecForward[0], vecForward[1], vecForward[2]);
 	mov.normalizar();
 	float a = interfaz.camara.getAngulo();
 	igvPunto3D arriba(0, 1, 0);
 	igvPunto3D movLat = mov.getProductoVectorial(arriba);
+	//Movimiento
 	switch (key)
 	{
 	case 'w': //delante
@@ -202,12 +207,14 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y)
 	interfaz.camara.aplicar();
 	glutPostRedisplay();
 }
+//Métodos para el ratón.
 void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 {
 	interfaz.cursorX = x;
 	interfaz.cursorY = y;
 	switch (boton)
 	{
+		//Movimiento de la cámara.
 	case GLUT_MIDDLE_BUTTON:
 		if (estado == GLUT_DOWN)
 		{
@@ -247,19 +254,22 @@ void igvInterfaz::set_glutDisplayFunc()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_CULL_FACE);
-		if (interfaz.objeto_seleccionado != -1)
+		if (interfaz.objeto_seleccionado != -1) //Seleccion
 		{
 			float cS[3] = { 0.0, (interfaz.objeto_seleccionado*2) / 255.0f, 0.0 };
 			interfaz.escena.activarSeleccion(interfaz.objeto_seleccionado);
 		}
 		interfaz.objeto_seleccionado = -1;
+		interfaz.escena.restablecerColores();
 		interfaz.camara.aplicar();
 		interfaz.escena.visualizarSeleccion();
+		//Cojo el color.
 		GLubyte colorSeleccionado[3];
 		glReadPixels(interfaz.cursorX, interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, colorSeleccionado);
 		interfaz.objeto_seleccionado = colorSeleccionado[1];
 		if (interfaz.objeto_seleccionado >= 255)
 			interfaz.objeto_seleccionado = -1;
+		//Sé que objeto es, por lo tanto actualizo el seleccionado y puedo trabajar con el.
 		interfaz.escena.activarSeleccion(interfaz.objeto_seleccionado);
 		interfaz.modo = IGV_VISUALIZAR;
 		glEnable(GL_LIGHTING);
@@ -286,7 +296,7 @@ void igvInterfaz::inicializarEventos()
 	glutMotionFunc(set_glutMotionFunc);
 	glutSpecialFunc(set_glutSpecialFunc);
 }
-
+//Métodos del menú
 void igvInterfaz::procesarTextura(int val)
 {
 	interfaz.escena.setAplicacionTextura(interfaz.objeto_seleccionado, val);
@@ -314,6 +324,14 @@ void igvInterfaz::procesarAplicacionTextura(int val)
 void igvInterfaz::procesarFiltro(int val)
 {
 	interfaz.escena.setFiltro(interfaz.objeto_seleccionado, val);
+	interfaz.objeto_seleccionado = -1;
+	interfaz.escena.restablecerColores();
+	glutPostRedisplay();
+}
+
+void igvInterfaz::procesarRepeticion(int val)
+{
+	interfaz.escena.setRepeticion(interfaz.objeto_seleccionado, val);
 	interfaz.objeto_seleccionado = -1;
 	interfaz.escena.restablecerColores();
 	glutPostRedisplay();

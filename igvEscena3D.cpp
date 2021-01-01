@@ -23,19 +23,21 @@ void igvEscena3D::aplicarColor(int objeto)
 		caballitoDePalo->setColor(*colores[colorAplicado[objeto]]);
 	}
 }
-igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true)
+igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true), colores(std::vector<igvColor*>())
 {
+	//Creación de la escena, colores y texturas.
 	cilindro = new igvCilindro(2,2,50,10);
 	cilindro->setColorSeleccion(igvColor(0, 0, 0));
 	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 5.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
 	quad = new igvQuad(200,200,5,5);
 	quad->setColorSeleccion(igvColor(0, 1.0/255.0, 0));
 
-	texturas.push_back(new igvTextura("./texturas/giygas.png"));
-	texturas.push_back(new igvTextura("./texturas/paracleto.jpg"));
+	texturas.push_back(new igvTextura("./texturas/cacodemon.jpg"));
+	texturas.push_back(new igvTextura("./texturas/mirage.jpg"));
 	texturas.push_back(new igvTextura("./texturas/win95.jpg"));
 	texturas.push_back(new igvTextura("./texturas/piedra.jpg"));
 	texturas.push_back(new igvTextura("./texturas/marmol.jpg"));
+	texturas.push_back(new igvTextura("./texturas/hierba.jpg"));
 	for (int i = 0; i < numObjetos; i++)
 	{
 		texturaAplicada[i] = -1;
@@ -59,6 +61,12 @@ igvEscena3D::~igvEscena3D()
 {
 	delete cilindro;
 	delete luzFija;
+	delete quad;
+	delete caballitoDePalo;
+	for (igvTextura* t : texturas)
+		delete t;
+	for (igvColor* c : colores)
+		delete c;
 }
 
 void igvEscena3D::visualizar()
@@ -75,17 +83,19 @@ void igvEscena3D::visualizar()
 			aplicarTextura(0);
 			cilindro->visualizar();
 		glPopMatrix();
-		aplicarTextura(1);
-		quad->visualizar();
+		glPushMatrix();
+			aplicarTextura(1);
+			quad->visualizar();
+		glPopMatrix();
 		glPushMatrix();
 			glMaterialfv(GL_FRONT, GL_EMISSION, colorTetera.cloneToFloatArray());
-			glTranslatef(0, 0, 5);
+			glTranslatef(0, 1, 5);
 			aplicarTextura(2);
 			glutSolidTeapot(1);
 		glPopMatrix();
 		glPushMatrix();
 			glTranslatef(4.5,0,0);
-			glScalef(.25,.25,.25);
+			glScalef(.15,.15,.15);
 			aplicarTextura(3);
 			caballitoDePalo->visualizar();
 		glPopMatrix();
@@ -98,12 +108,12 @@ void igvEscena3D::visualizarSeleccion()
 	quad->visualizar();
 	glPushMatrix();
 		glColor3f(0, 2.0 / 255, 0);
-		glTranslatef(0, 0, 5);
+		glTranslatef(0, 1, 5);
 		glutSolidTeapot(1);
 	glPopMatrix();
 	glPushMatrix();
 		glTranslatef(4.5, 0, 0);
-		glScalef(.25,.25,.25);
+		glScalef(.15,.15,.15);
 		caballitoDePalo->visualizar();
 	glPopMatrix();
 }
@@ -155,7 +165,7 @@ void igvEscena3D::activarSeleccion(int obj)
 		break;
 	}
 }
-
+//Restablece los colores tras una selección
 void igvEscena3D::restablecerColores()
 {
 	for (int i = 0; i < numObjetos; i++)
@@ -163,7 +173,7 @@ void igvEscena3D::restablecerColores()
 		aplicarColor(i);
 	}
 }
-
+//Metodos para editar la textura de cada objeto y los colores y más opciones.
 void igvEscena3D::setAplicacionTextura(int objeto, int textura)
 {
 	texturaAplicada[objeto] = textura;
@@ -184,4 +194,10 @@ void igvEscena3D::setFiltro(int objeto, int val)
 {
 	if (texturaAplicada[objeto] != -1)
 		texturas[texturaAplicada[objeto]]->setFiltro(val);
+}
+
+void igvEscena3D::setRepeticion(int objeto, int val)
+{
+	if (texturaAplicada[objeto] != -1)
+		texturas[texturaAplicada[objeto]]->setRepeticion(val);
 }
