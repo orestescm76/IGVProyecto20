@@ -58,7 +58,7 @@ float* igvPunto3D::cloneToFloatArray() const
 	float* res = new float[4]{ (float)c[0], (float)c[1], (float)c[2], 1.0 };
 	return res;
 }
-
+//Métodos auxiliares
 void igvPunto3D::normalizar()
 {
 	double distancia = pow(c[0], 2) + pow(c[1], 2) + pow(c[2], 2);

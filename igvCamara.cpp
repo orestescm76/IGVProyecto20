@@ -87,6 +87,7 @@ void igvCamara::zoom(double factor)
 
 void igvCamara::setAnguloyRotar(float a)
 {
+	//Aplicar el ángulo nuevo de la cámara.
 	ang = a;
 	float angRad = ang / 57.2957795;
 	float distancia = pow(P0[0]-r[0], 2) + pow(P0[2]-r[2], 2);

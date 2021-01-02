@@ -46,7 +46,6 @@ void igvTextura::crearTextura(char* fichero)
 			imagen->w, imagen->h, imagen->format->BitsPerPixel);
 
 
-		// Apartado G: Añadir aquí el código para cargar como textura OpenGL la imagen */
 		//	- Generar el identificador de textura y asignarlo al atributo idTextura (glGenTextures)
 		glGenTextures(1, &idTextura);
 		//	- Enlazar el identificador creado a GL_TEXTURE_2D (glBindTexture)

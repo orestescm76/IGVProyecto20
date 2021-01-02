@@ -95,8 +95,6 @@ igvCilindro::igvCilindro(float r, float a, int divU, int divV): divU(divU), divV
 				triangulos[i + 1] = triangulo + 1;
 				triangulos[i + 2] = triangulo + divU;
 			}
-			//texCoords[tc++] = (float)vert / divU;
-			//texCoords[tc++] = (float)h / divV;
 			triangulo++;
 		}
 		esqInf += divU;
