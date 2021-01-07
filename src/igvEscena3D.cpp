@@ -30,7 +30,7 @@ igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true), co
 	cilindro = new igvCilindro(2,2,50,10);
 	cilindro->setColorSeleccion(igvColor(0, 0, 0));
 	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 5.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
-	quad = new igvQuad(650,650,20,20);
+	quad = new igvQuad(400,400,20,20);
 	quad->setColorSeleccion(igvColor(0, 1.0/255.0, 0));
 
 	texturas.push_back(new igvTextura("./texturas/cacodemon.jpg"));
