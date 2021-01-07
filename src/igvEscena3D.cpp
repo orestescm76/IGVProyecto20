@@ -30,7 +30,7 @@ igvEscena3D::igvEscena3D(): texturas(std::vector<igvTextura*>()), ejes(true), co
 	cilindro = new igvCilindro(2,2,50,10);
 	cilindro->setColorSeleccion(igvColor(0, 0, 0));
 	luzFija = new igvFuenteLuz(GL_LIGHT0, igvPunto3D(2.0, 5.0, 3.0), igvColor(0, 0, 0, 1), igvColor(1, 1, 1, 1), igvColor(1, 1, 1, 1), 1, 0, 0);
-	quad = new igvQuad(200,200,5,5);
+	quad = new igvQuad(650,650,20,20);
 	quad->setColorSeleccion(igvColor(0, 1.0/255.0, 0));
 
 	texturas.push_back(new igvTextura("./texturas/cacodemon.jpg"));
@@ -85,6 +85,8 @@ void igvEscena3D::visualizar()
 			cilindro->visualizar();
 		glPopMatrix();
 		glPushMatrix();
+			glScalef(4, 0, 4);
+			glTranslatef(-10, 0, -10);
 			aplicarTextura(1);
 			quad->visualizar();
 		glPopMatrix();
@@ -95,7 +97,8 @@ void igvEscena3D::visualizar()
 			glutSolidTeapot(1);
 		glPopMatrix();
 		glPushMatrix();
-			glTranslatef(4.5,0,0);
+			glTranslatef(6,1,0);
+			glRotatef(270, 0, 0, 1);
 			glScalef(.15,.15,.15);
 			aplicarTextura(3);
 			caballitoDePalo->visualizar();
@@ -106,14 +109,20 @@ void igvEscena3D::visualizar()
 void igvEscena3D::visualizarSeleccion()
 {
 	cilindro->visualizar();
-	quad->visualizar();
+	glPushMatrix();
+		glScalef(4, 0, 4);
+		glTranslatef(-10,0,-10);
+		quad->visualizar();
+	glPopMatrix();
+
 	glPushMatrix();
 		glColor3f(0, 2.0 / 255, 0);
 		glTranslatef(0, 1, 5);
 		glutSolidTeapot(1);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(4.5, 0, 0);
+		glTranslatef(6, 1, 0);
+		glRotatef(270, 0, 0, 1);
 		glScalef(.15,.15,.15);
 		caballitoDePalo->visualizar();
 	glPopMatrix();

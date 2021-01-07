@@ -18,6 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\igvCaballo.cpp" />
+    <ClCompile Include="src\igvCamara.cpp" />
+    <ClCompile Include="src\igvCilindro.cpp" />
+    <ClCompile Include="src\igvColor.cpp" />
+    <ClCompile Include="src\igvEscena3D.cpp" />
+    <ClCompile Include="src\igvFuenteLuz.cpp" />
+    <ClCompile Include="src\igvInterfaz.cpp" />
+    <ClCompile Include="src\igvMallaTriangulos.cpp" />
+    <ClCompile Include="src\igvMaterial.cpp" />
+    <ClCompile Include="src\igvPunto3D.cpp" />
+    <ClCompile Include="src\igvQuad.cpp" />
+    <ClCompile Include="src\igvTextura.cpp" />
+    <ClCompile Include="src\Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\igvCaballo.h" />
+    <ClInclude Include="src\igvCamara.h" />
+    <ClInclude Include="src\igvCilindro.h" />
+    <ClInclude Include="src\igvColor.h" />
+    <ClInclude Include="src\igvEscena3D.h" />
+    <ClInclude Include="src\igvFuenteLuz.h" />
+    <ClInclude Include="src\igvInterfaz.h" />
+    <ClInclude Include="src\igvMallaTriangulos.h" />
+    <ClInclude Include="src\igvMaterial.h" />
+    <ClInclude Include="src\igvPunto3D.h" />
+    <ClInclude Include="src\igvQuad.h" />
+    <ClInclude Include="src\igvTextura.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -144,35 +173,6 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="igvCaballo.cpp" />
-    <ClCompile Include="igvCamara.cpp" />
-    <ClCompile Include="igvCilindro.cpp" />
-    <ClCompile Include="igvColor.cpp" />
-    <ClCompile Include="igvEscena3D.cpp" />
-    <ClCompile Include="igvFuenteLuz.cpp" />
-    <ClCompile Include="igvInterfaz.cpp" />
-    <ClCompile Include="igvMallaTriangulos.cpp" />
-    <ClCompile Include="igvMaterial.cpp" />
-    <ClCompile Include="igvPunto3D.cpp" />
-    <ClCompile Include="igvQuad.cpp" />
-    <ClCompile Include="igvTextura.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="igvCaballo.h" />
-    <ClInclude Include="igvCamara.h" />
-    <ClInclude Include="igvCilindro.h" />
-    <ClInclude Include="igvColor.h" />
-    <ClInclude Include="igvEscena3D.h" />
-    <ClInclude Include="igvFuenteLuz.h" />
-    <ClInclude Include="igvInterfaz.h" />
-    <ClInclude Include="igvMallaTriangulos.h" />
-    <ClInclude Include="igvMaterial.h" />
-    <ClInclude Include="igvPunto3D.h" />
-    <ClInclude Include="igvQuad.h" />
-    <ClInclude Include="igvTextura.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

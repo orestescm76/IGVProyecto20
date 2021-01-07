@@ -15,81 +15,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="src\igvColor.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvInterfaz.cpp">
+    <ClCompile Include="src\igvEscena3D.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvEscena3D.cpp">
+    <ClCompile Include="src\igvFuenteLuz.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvCamara.cpp">
+    <ClCompile Include="src\igvInterfaz.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvPunto3D.cpp">
+    <ClCompile Include="src\igvMallaTriangulos.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvTextura.cpp">
+    <ClCompile Include="src\igvMaterial.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvMaterial.cpp">
+    <ClCompile Include="src\igvPunto3D.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvColor.cpp">
+    <ClCompile Include="src\igvQuad.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvCilindro.cpp">
+    <ClCompile Include="src\igvTextura.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvMallaTriangulos.cpp">
+    <ClCompile Include="src\Source.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvFuenteLuz.cpp">
+    <ClCompile Include="src\igvCaballo.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvQuad.cpp">
+    <ClCompile Include="src\igvCamara.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="igvCaballo.cpp">
+    <ClCompile Include="src\igvCilindro.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="igvInterfaz.h">
+    <ClInclude Include="src\igvColor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvEscena3D.h">
+    <ClInclude Include="src\igvEscena3D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvCamara.h">
+    <ClInclude Include="src\igvFuenteLuz.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvPunto3D.h">
+    <ClInclude Include="src\igvInterfaz.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvTextura.h">
+    <ClInclude Include="src\igvMallaTriangulos.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvMaterial.h">
+    <ClInclude Include="src\igvMaterial.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvColor.h">
+    <ClInclude Include="src\igvPunto3D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvCilindro.h">
+    <ClInclude Include="src\igvQuad.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvMallaTriangulos.h">
+    <ClInclude Include="src\igvTextura.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvFuenteLuz.h">
+    <ClInclude Include="src\igvCaballo.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvQuad.h">
+    <ClInclude Include="src\igvCamara.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="igvCaballo.h">
+    <ClInclude Include="src\igvCilindro.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
